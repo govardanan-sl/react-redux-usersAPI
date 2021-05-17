@@ -2,8 +2,8 @@ import './App.css'
 import SideMenu from '../components/SideMenu/SideMenu';
 import Header from '../components/Header/Header';
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
-import PageHeader from '../components/Header/PageHeader';
-import { PeopleOutlineTwoTone } from '@material-ui/icons';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import CreateUser from '../components/CreateUser/CreateUser';
 
 const theme = createMuiTheme({
   palette:{
@@ -19,16 +19,23 @@ const theme = createMuiTheme({
 
 function App() {
   return (
+    <Router>
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <SideMenu/>
-        <Header/>
-        <PageHeader
-          title="Page"
-          subTitle="Test" icon={<PeopleOutlineTwoTone/>}/>
-        <CssBaseline/>
-      </div>
-    </ThemeProvider>
+        <div className="App">
+          <SideMenu/>
+          <Header/>
+          <CssBaseline/>
+          <Switch>
+            <Route exact path="/">
+              <CreateUser/>
+            </Route>
+            <Route path="/users/create">
+              <CreateUser/>
+            </Route>
+          </Switch>
+        </div>
+      </ThemeProvider>
+    </Router>
   );
 }
 
