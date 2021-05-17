@@ -1,34 +1,37 @@
 import { Grid, TextField } from '@material-ui/core';
-import React, { useState } from 'react'
-import useStyle from './Style'
+import React from 'react'
+import {useForm,Form} from '../useForm';
 
 const initialValues ={
-    name: "",
-    job: ""
+    name:'',
+    job: ''
 }
 
 
 function CreateUserForm() {
-    const [formData,setFormData]= useState(initialValues);
-    const classes = useStyle();
+    const { formData , handleInputChange} = useForm(initialValues);
     return (
-        <form className={classes.root}>
+        <Form>
             <Grid container>
                 <Grid item xs={6}>
                     <TextField 
                         variant="outlined"
                         label="Name"
-                        value={formData.name}
+                        name="name"
+                        value={formData&&formData.name}
+                        onChange = {handleInputChange}
                     />
                     <TextField 
                         variant="outlined"
                         label="Job Role"
-                        value={formData.job}
+                        name="job"
+                        value={formData&&formData.job}
+                        onChange = {handleInputChange}
                     />
                 </Grid>
                 <Grid item xs={6}></Grid>
             </Grid>
-        </form>
+        </Form>
     )
 }
 
