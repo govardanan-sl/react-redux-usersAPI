@@ -1,5 +1,6 @@
 import { Avatar, makeStyles, Paper, TableBody, TableCell, TableRow } from '@material-ui/core'
 import { PeopleOutlineTwoTone } from '@material-ui/icons'
+import { Pagination } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import PageHeader from '../Header/PageHeader'
 import {useTable} from '../useTable'
@@ -12,14 +13,22 @@ const useStyles = makeStyles(theme=>({
     }
 }))
 
+const headCells = [
+    {id:'email',label:'Email'},
+    {id:'fname',label:'First Name'},
+    {id:'lname',label:'Last Name'},
+    {id:'avatar',label:'Avatar'}
+]
+
 function CreateUser() {
     const classes = useStyles();
-    const {TableContainer} = useTable();
     const [data,setData] = useState()
     const [isError,setIsError] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
+    const {TableContainer,TbleHead} = useTable(headCells);
+    const [pageNo,setPageNo] = useState(1);
     useEffect(() => {
-        let url ="https://reqres.in/api/users";
+        let url ="https://reqres.in/api/users?page="+pageNo;
         let homeHeaders = new Headers();
         let requestOptions= {
             method: 'GET',
@@ -47,7 +56,10 @@ function CreateUser() {
             setIsError(err.message);
             setIsLoading(false);
         })
-    },[]);
+    },[pageNo]);
+    const handlePageChange = (e,pageNo) =>{
+        setPageNo(pageNo);
+    }
     return (
         <div>
             <PageHeader
@@ -55,6 +67,7 @@ function CreateUser() {
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             <Paper className={classes.pageContent}>
                <TableContainer>
+                    <TbleHead/>
                     <TableBody>
                         {
                             data&&data.map(dt=>
@@ -67,6 +80,7 @@ function CreateUser() {
                         }
                     </TableBody>
                </TableContainer>
+               <Pagination count={2} variant="outlined" shape="rounded"  style={{marginTop: "16px"}} onChange={handlePageChange}/>
             </Paper>
         </div>
     )
