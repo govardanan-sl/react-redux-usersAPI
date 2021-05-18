@@ -1,7 +1,10 @@
-import { Grid, TextField } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React from 'react'
 import {useForm,Form} from '../useForm';
-
+import Input from '../Form/Input';
+import Select from '../Form/Select';
+import { getJobRoles } from './JobRoles';
+import Button from '../Form/Button';
 const initialValues ={
     name:'',
     job: ''
@@ -13,23 +16,35 @@ function CreateUserForm() {
     return (
         <Form>
             <Grid container>
-                <Grid item xs={6}>
-                    <TextField 
-                        variant="outlined"
+                <Grid item xs={4}>
+                   <Input
                         label="Name"
                         name="name"
-                        value={formData&&formData.name}
-                        onChange = {handleInputChange}
+                        value={formData?.name}
+                        onChange={handleInputChange}
                     />
-                    <TextField 
-                        variant="outlined"
+                    <Select 
+                        name="Job Role"
                         label="Job Role"
-                        name="job"
-                        value={formData&&formData.job}
-                        onChange = {handleInputChange}
+                        value={formData?.job}
+                        onChange={handleInputChange}
+                        options = {getJobRoles()}
                     />
+                     <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        text="Submit"
+                        type="submit"
+                    ></Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                        text="Reset"
+                        type="reset"
+                    ></Button>
                 </Grid>
-                <Grid item xs={6}></Grid>
             </Grid>
         </Form>
     )
