@@ -6,7 +6,6 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import CreateUser from '../components/CreateUser/CreateUser';
 import DisplayUsers from '../components/DisplayUsers/DisplayUsers';
 import Login from '../components/Login/Login';
-import LoginPopup from '../components/Login/LoginPopup';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../Store/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -35,7 +34,6 @@ function App() {
           <CssBaseline/>
           <Switch>
             <Route exact path="/">
-              <LoginPopup></LoginPopup>
               <DisplayUsers/>
             </Route>
             <Route path="/users/create">

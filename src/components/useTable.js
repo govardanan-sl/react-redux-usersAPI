@@ -1,5 +1,5 @@
-import { Table, TableCell, TableRow,TableHead, TablePagination } from '@material-ui/core'
-import React, { useState } from 'react'
+import { Table, TableCell, TableRow,TableHead } from '@material-ui/core'
+import React from 'react'
 
 export function useTable(headCells) {
 

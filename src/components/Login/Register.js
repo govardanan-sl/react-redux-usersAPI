@@ -12,7 +12,7 @@ const initialValues = {
     password:""
 }
 
-function Login(props) {
+function Register(props) {
     const [isPending , setIsPending] = useState(false);
     const [isError,setIsError] = useState(null);
     const [successText,setSuccessText] = useState(null);
@@ -34,7 +34,7 @@ function Login(props) {
                 headers: {"Content-Type" : "application/json"},
                 body : JSON.stringify(formData)
             };
-            let url = "https://reqres.in/api/login"
+            let url = "https://reqres.in/api/Register"
             fetch(url, requestOptions)
             .then((res) => {
                 if(res.status!==200){
@@ -49,7 +49,7 @@ function Login(props) {
                 const payload = {
                     accessToken:result.token,
                 }
-                setSuccessText("Logged In Successfully");
+                setSuccessText("Registered Successfully");
                 props.setLoginData(payload);
                 console.log(result);
                 setPopup(false);
@@ -93,9 +93,6 @@ function Login(props) {
                         text="Submit"
                         type="submit"
                     ></Button>
-                    <Button text="Register" color="secondary" onClick={()=>{
-                        props.setIsRegister(true)
-                    }}></Button>
                     </div>}
                     {isPending&&<p>Please Wait!!</p>}
                 </Grid>
@@ -120,4 +117,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Login)
+export default connect(mapStateToProps,mapDispatchToProps)(Register)
