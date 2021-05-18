@@ -5,6 +5,7 @@ import Input from '../Form/Input';
 import Select from '../Form/Select';
 import { getJobRoles } from './JobRoles';
 import Button from '../Form/Button';
+import { Alert } from '@material-ui/lab';
 const initialValues ={
     name:'',
     job: ''
@@ -15,6 +16,7 @@ function CreateUserForm() {
     const { formData , handleInputChange, setError,error,resetForm} = useForm(initialValues);
     const [isPending , setIsPending] = useState(false);
     const [isError,setIsError] = useState(null);
+    const [successText,setSuccessText] = useState(null);
     const validate = () =>{
         let temp = {}
         temp.name = formData.name?"":"Required"
@@ -43,6 +45,8 @@ function CreateUserForm() {
                 }else{
                     console.log("Posted");
                     setIsPending(false);
+                    setSuccessText("Created Successfully");
+                    resetForm();
                 }
             })
             .catch((err) => {
@@ -56,7 +60,7 @@ function CreateUserForm() {
         <>
         {<Form onSubmit = {handleSubmit}>
             <Grid container>
-                <Grid item xs={4}>
+                <Grid item xs={6} style={{flexBasis:'100%',maxWidth:'100%'}}>
                    <Input
                         label="Name"
                         name="name"
@@ -93,6 +97,7 @@ function CreateUserForm() {
                 </Grid>
             </Grid>
         </Form>}
+        {successText&&<Alert severity="success" onClose={() => {setSuccessText(null)}}>Created New User Successfully!</Alert>}
         </>
     )
 }

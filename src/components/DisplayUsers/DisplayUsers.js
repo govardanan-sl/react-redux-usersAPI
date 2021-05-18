@@ -1,9 +1,14 @@
-import { Avatar, makeStyles, Paper, TableBody, TableCell, TableRow } from '@material-ui/core'
+import { Avatar, Grid, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar } from '@material-ui/core'
 import { PeopleOutlineTwoTone } from '@material-ui/icons'
+import AddIcon from '@material-ui/icons/Add';
 import { Pagination } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
+import CreateUserForm from '../CreateUser/CreateUserForm';
+import Button  from '../Form/Button'
+import Popup from '../Form/Popup';
 import PageHeader from '../Header/PageHeader'
 import {useTable} from '../useTable'
+
 
 
 const useStyles = makeStyles(theme=>({
@@ -26,6 +31,7 @@ function CreateUser() {
     const [isError,setIsError] = useState(null);
     const [isLoading,setIsLoading] = useState(false);
     const {TableContainer,TbleHead} = useTable(headCells);
+    const [openPopup,setOpenPopup] = useState(false);
     const [pageNo,setPageNo] = useState(1);
     useEffect(() => {
         let url ="https://reqres.in/api/users?page="+pageNo;
@@ -66,6 +72,17 @@ function CreateUser() {
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             <Paper className={classes.pageContent}>
+                <Toolbar>
+                    <Grid xs={10}></Grid>
+                    <Button
+                        onClick={()=>setOpenPopup(true)}
+                        style={{right:'0'}}
+                        text="ADD NEW"
+                        variant="outlined"
+                        color="secondary"
+                        startIcon={<AddIcon/>}
+                    />
+                </Toolbar>
                <TableContainer>
                     <TbleHead/>
                     <TableBody>
@@ -82,6 +99,13 @@ function CreateUser() {
                </TableContainer>
                <Pagination count={2} variant="outlined" shape="rounded"  style={{marginTop: "16px"}} onChange={handlePageChange}/>
             </Paper>
+            <Popup 
+                title="Add New User"
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+            >
+                <CreateUserForm/>
+            </Popup>
         </div>
     )
 }
