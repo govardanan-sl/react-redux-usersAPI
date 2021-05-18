@@ -1,9 +1,11 @@
 import { Avatar, Grid, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar } from '@material-ui/core'
-import { PeopleOutlineTwoTone } from '@material-ui/icons'
+import { DeleteOutline, EditOutlined, PeopleOutlineTwoTone } from '@material-ui/icons'
 import AddIcon from '@material-ui/icons/Add';
-import { Pagination } from '@material-ui/lab'
+import { Alert, Pagination } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import CreateUserForm from '../CreateUser/CreateUserForm';
+import EditUserForm from '../EditUser/EditUserForm';
+import ActionButton from '../Form/ActionButton';
 import Button  from '../Form/Button'
 import Popup from '../Form/Popup';
 import PageHeader from '../Header/PageHeader'
@@ -22,8 +24,17 @@ const headCells = [
     {id:'email',label:'Email'},
     {id:'fname',label:'First Name'},
     {id:'lname',label:'Last Name'},
-    {id:'avatar',label:'Avatar'}
+    {id:'avatar',label:'Avatar'},
+    {id:'actions',label:'Actions'}
 ]
+
+let initialValues = {
+    id:"",
+    email:"",
+    first_name:"",
+    last_name:"",
+    avatar:""
+}
 
 function CreateUser() {
     const classes = useStyles();
@@ -33,6 +44,8 @@ function CreateUser() {
     const {TableContainer,TbleHead} = useTable(headCells);
     const [openPopup,setOpenPopup] = useState(false);
     const [pageNo,setPageNo] = useState(1);
+    const [editData,setEditData] = useState(null);
+    const [successMessage,setSuccessMessage] = useState(null);
     useEffect(() => {
         let url ="https://reqres.in/api/users?page="+pageNo;
         let homeHeaders = new Headers();
@@ -56,7 +69,6 @@ function CreateUser() {
             setData(result.data);
             setIsLoading(false);
             setIsError(false);
-            console.log(data);
         })
         .catch(err=>{
             setIsError(err.message);
@@ -66,14 +78,50 @@ function CreateUser() {
     const handlePageChange = (e,pageNo) =>{
         setPageNo(pageNo);
     }
+    const handleEdit = (dt)=>{
+        setEditData(dt);
+        initialValues=dt;
+    }
+    const handleDelete = (id)=>{
+        let url ="https://reqres.in/api/users/"+id;
+        let homeHeaders = new Headers();
+        let requestOptions= {
+            method: 'DELETE',
+            headers:homeHeaders,
+            redirect: 'follow'
+        };
+        fetch(url,requestOptions)
+        .then(response => {
+            setIsLoading(true)
+            if(response.status===204){
+                setSuccessMessage("Deleted Successfully");
+                let ndata=data.filter((element) => element.id!==id );
+                setData(ndata);
+                return response.json();
+            }
+            if(!response.ok){
+                throw Error("Could not Fetch data");
+            }
+            return response.json();
+        })
+        .then(result => {
+            setIsLoading(false);
+            setIsError(false);
+        })
+        .catch(err=>{
+            setIsError(err.message);
+            setIsLoading(false);
+        })
+    }
     return (
         <div>
             <PageHeader
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             <Paper className={classes.pageContent}>
+            {successMessage&&<Alert severity="success" onClose={() => {setSuccessMessage(null)}}>{successMessage}</Alert>}
                 <Toolbar>
-                    <Grid xs={10}></Grid>
+                    <Grid><Grid item  xs={10}></Grid></Grid>
                     <Button
                         onClick={()=>setOpenPopup(true)}
                         style={{right:'0'}}
@@ -93,6 +141,14 @@ function CreateUser() {
                                     <TableCell>{dt.first_name}</TableCell>
                                     <TableCell>{dt.last_name}</TableCell>
                                     <TableCell><Avatar alt={dt.first_name} src={dt.avatar} /></TableCell>
+                                    <TableCell>
+                                        <ActionButton color="primary" onClick={()=>{handleEdit(dt)}}>
+                                            <EditOutlined></EditOutlined>
+                                        </ActionButton>
+                                        <ActionButton color="secondary" onClick={()=>{handleDelete(dt.id)}}>
+                                            <DeleteOutline></DeleteOutline>
+                                        </ActionButton>
+                                    </TableCell>
                                 </TableRow>))
                         }
                     </TableBody>
@@ -105,6 +161,13 @@ function CreateUser() {
                 setOpenPopup={setOpenPopup}
             >
                 <CreateUserForm/>
+            </Popup>
+            <Popup
+                title="Edit User"
+                openPopup={editData?true:false}
+                setOpenPopup={setEditData}
+            >
+                {editData&&<EditUserForm initialValues={initialValues} updateData={setData} data={data}></EditUserForm>}
             </Popup>
         </div>
     )

@@ -1,54 +1,51 @@
-import { Grid } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import React, { useState } from 'react'
 import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
-import Select from '../Form/Select';
-import { getJobRoles } from './JobRoles';
 import Button from '../Form/Button';
 import { Alert } from '@material-ui/lab';
-const initialValues ={
-    name:'',
-    job: ''
-}
 
 
-function CreateUserForm() {
+function EditUserForm({initialValues,updateData,data}) {
     const { formData , handleInputChange, setError,error,resetForm} = useForm(initialValues);
     const [isPending , setIsPending] = useState(false);
     const [isError,setIsError] = useState(null);
     const [successText,setSuccessText] = useState(null);
     const validate = () =>{
         let temp = {}
-        temp.name = formData.name?"":"Required"
-        temp.job= formData.job?"":"Required"
+        temp.name = formData.first_name?"":"Required"
+        temp.job= formData.last_name?"":"Required"
         setError({...temp});
         return Object.values(temp).every(x => x==="");
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
         if(validate()){
-            const post = { name:formData.name, job:formData.job};
+            const post = { id:formData.id, email:formData.email,first_name:formData.first_name, last_name:formData.last_name, avatar:formData.avatar  };
             console.log(JSON.stringify(post));
             setIsPending(true);
             var createPostHeader = new Headers();
             createPostHeader.append("Content-Type", "application/json");
             let requestOptions = {
-                method: 'POST',
+                method: 'PUT',
                 headers: createPostHeader,
                 body : JSON.stringify(post)
             };
-            let url = "https://reqres.in/api/users"
+            let url = "https://reqres.in/api/users/"+formData.id
             fetch(url, requestOptions)
             .then((res) => {
-                  if(res.status!==201){
+                  if(res.status!==200){
                     throw Error(res.statusText);
                 }else{
                     console.log("Posted");
                     setIsPending(false);
-                    setSuccessText("Created Successfully",setTimeout(() => {
+                    setSuccessText(`${post.first_name} ${post.last_name} Updated Successfully`,setTimeout(() => {
                         setSuccessText(null);
-                    }, 3000));
-                    resetForm();
+                    }, 3000))
+                    console.log(data)
+                    let ndata  = data.filter((item)=>item.id!==formData.id)
+                    ndata.push(post);
+                    updateData(ndata);
                 }
             })
             .catch((err) => {
@@ -63,20 +60,27 @@ function CreateUserForm() {
         {<Form onSubmit = {handleSubmit}>
             <Grid container>
                 <Grid item xs={6} style={{flexBasis:'100%',maxWidth:'100%'}}>
+                   <Avatar alt={formData.first_name} src={formData.avatar} style={{margin:'16px'}}/>
                    <Input
-                        label="Name"
-                        name="name"
-                        value={formData.name}
+                        label="First Name"
+                        name="first_name"
+                        value={formData.first_name}
                         onChange={handleInputChange}
                         error={error.name}
                     />
-                    <Select 
-                        name="job"
-                        label="Job Role"
-                        value={formData.job}
+                    <Input
+                        label="Last Name"
+                        name="last_name"
+                        value={formData.last_name}
                         onChange={handleInputChange}
-                        options = {getJobRoles()}
-                        error={error.job}
+                        error={error.name}
+                    />
+                    <Input
+                        disabled
+                        label="Email"
+                        name="email"
+                        value={formData.email}
+                        error={error.name}
                     />
                      {!isPending&&
                      <div>
@@ -87,21 +91,15 @@ function CreateUserForm() {
                         text="Submit"
                         type="submit"
                     ></Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        size="large"
-                        text="Reset"
-                        onClick={resetForm}
-                    ></Button></div>}
+                    </div>}
                     {isPending&&<p>Please Wait!!</p>}
                     {isError&&<p>{isError}</p>}
                 </Grid>
             </Grid>
         </Form>}
-        {successText&&<Alert severity="success" onClose={() => {setSuccessText(null)}}>Created New User Successfully!</Alert>}
+        {successText&&<Alert severity="success" onClose={() => {setSuccessText(null)}}>{successText}</Alert>}
         </>
     )
 }
 
-export default CreateUserForm;
+export default EditUserForm;
