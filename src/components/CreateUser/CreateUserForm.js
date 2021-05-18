@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
 import Select from '../Form/Select';
@@ -12,24 +12,68 @@ const initialValues ={
 
 
 function CreateUserForm() {
-    const { formData , handleInputChange} = useForm(initialValues);
+    const { formData , handleInputChange, setError,error,resetForm} = useForm(initialValues);
+    const [isPending , setIsPending] = useState(false);
+    const [isError,setIsError] = useState(null);
+    const validate = () =>{
+        let temp = {}
+        temp.name = formData.name?"":"Required"
+        temp.job= formData.job?"":"Required"
+        setError({...temp});
+        return Object.values(temp).every(x => x==="");
+    }
+    const handleSubmit = (e) =>{
+        e.preventDefault();
+        if(validate()){
+            const post = { name:formData.name, job:formData.job};
+            console.log(JSON.stringify(post));
+            setIsPending(true);
+            var createPostHeader = new Headers();
+            createPostHeader.append("Content-Type", "application/json");
+            let requestOptions = {
+                method: 'POST',
+                headers: createPostHeader,
+                body : JSON.stringify(post)
+            };
+            let url = "https://reqres.in/api/users"
+            fetch(url, requestOptions)
+            .then((res) => {
+                  if(res.status!==201){
+                    throw Error(res.statusText);
+                }else{
+                    console.log("Posted");
+                    setIsPending(false);
+                }
+            })
+            .catch((err) => {
+                console.log(err.message);
+                setIsError(err.message);
+                setIsPending(false);
+            });
+        }
+    }
     return (
-        <Form>
+        <>
+        {<Form onSubmit = {handleSubmit}>
             <Grid container>
                 <Grid item xs={4}>
                    <Input
                         label="Name"
                         name="name"
-                        value={formData?.name}
+                        value={formData.name}
                         onChange={handleInputChange}
+                        error={error.name}
                     />
                     <Select 
-                        name="Job Role"
+                        name="job"
                         label="Job Role"
-                        value={formData?.job}
+                        value={formData.job}
                         onChange={handleInputChange}
                         options = {getJobRoles()}
+                        error={error.job}
                     />
+                     {!isPending&&
+                     <div>
                      <Button
                         variant="contained"
                         color="primary"
@@ -42,11 +86,14 @@ function CreateUserForm() {
                         color="secondary"
                         size="large"
                         text="Reset"
-                        type="reset"
-                    ></Button>
+                        onClick={resetForm}
+                    ></Button></div>}
+                    {isPending&&<p>Please Wait!!</p>}
+                    {isError&&<p>{isError}</p>}
                 </Grid>
             </Grid>
-        </Form>
+        </Form>}
+        </>
     )
 }
 
