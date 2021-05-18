@@ -11,7 +11,7 @@ function Popup(props) {
             <DialogTitle>
                 <div style={{display:'flex'}}>
                     {title}
-                    <ActionButton color="secondary" style={{flexGrow:'1'}} onClick={()=>setOpenPopup&&setOpenPopup(false)}><CloseIcon></CloseIcon></ActionButton>
+                    <ActionButton color="secondary" style={{flexGrow:'1',justifyContent: "right"}} onClick={()=>setOpenPopup&&setOpenPopup(false)}><CloseIcon></CloseIcon></ActionButton>
                 </div>
             </DialogTitle>
             <DialogContent dividers>

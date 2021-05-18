@@ -5,7 +5,6 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import CreateUser from '../components/CreateUser/CreateUser';
 import DisplayUsers from '../components/DisplayUsers/DisplayUsers';
-import Login from '../components/Login/Login';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../Store/store';
 import { PersistGate } from 'redux-persist/integration/react';

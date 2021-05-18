@@ -65,9 +65,6 @@ function Register(props) {
         {<Form onSubmit = {handleSubmit}>
             <Grid container>
                 <Grid item xs={6} style={{flexBasis:'100%',maxWidth:'100%'}}>
-                    <Grid>
-                        <Avatar alt="User Image" style={{margin:'16px'}}/>
-                   </Grid>
                    <Input
                         label="Email"
                         name="email"
@@ -93,6 +90,13 @@ function Register(props) {
                         text="Submit"
                         type="submit"
                     ></Button>
+                    <Button
+                        variant="outlined"
+                        color="text.secondary"
+                        size="large"
+                        text="reset"
+                        onClick={()=>resetForm()}
+                    />
                     </div>}
                     {isPending&&<p>Please Wait!!</p>}
                 </Grid>
