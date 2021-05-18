@@ -3,10 +3,15 @@ import { NotificationsNone, PowerSettingsNew } from '@material-ui/icons';
 import React from 'react';
 import useStyles from './Styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { Loggout } from '../../Store/actions';
+import { connect } from 'react-redux';
 
 
-function Header() {
+function Header(props) {
     const classes = useStyles();
+    const handleOnClick =()=>{
+        props.Loggout();
+    }
     return (
         <AppBar position="static" className={classes.root}>
             <Toolbar>
@@ -20,16 +25,11 @@ function Header() {
                     </Grid>
                     <Grid item sm></Grid>
                     <Grid item>
-                        <IconButton>
-                            <Badge badgeContent={3} color="secondary">
-                                <NotificationsNone/>
-                            </Badge>
-                        </IconButton>
-                        <IconButton>
+                        {props.accessToken&&<IconButton onClick={handleOnClick}>
                             <Badge color="primary">
                                 <PowerSettingsNew/>
                             </Badge>
-                        </IconButton>
+                        </IconButton>}
                     </Grid>
                 </Grid>
             </Toolbar>
@@ -37,4 +37,17 @@ function Header() {
     )
 }
 
-export default Header
+const mapStateToProps = (state) =>{
+    return{
+        accessToken:state.accessToken
+    }
+}
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        Loggout:()=>{
+            dispatch(Loggout());
+        }
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header)
