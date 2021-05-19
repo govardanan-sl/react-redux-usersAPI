@@ -25,4 +25,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps,null)(LoginPopup)
+export default connect(mapStateToProps)(LoginPopup)
