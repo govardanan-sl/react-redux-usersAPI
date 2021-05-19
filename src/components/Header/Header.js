@@ -24,7 +24,7 @@ function Header(props) {
                             />
                     </Grid>
                     <Grid item sm></Grid>
-                    <Grid item>
+                    <Grid item style={{flexGrow: "1",justifyContent: "right",display: "flex"}}>
                         {props.accessToken&&
                         <IconButton onClick={handleOnClick}>
                             <Badge color="primary">

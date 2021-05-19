@@ -18,7 +18,8 @@ import {useTable} from '../useTable'
 const useStyles = makeStyles(theme=>({
     pageContent:{
         margin:theme.spacing(5),
-        padding:theme.spacing(3)
+        padding:theme.spacing(3),
+        overflow: "auto"
     }
 }))
 
