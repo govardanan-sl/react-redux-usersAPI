@@ -48,7 +48,6 @@ function Register(props) {
                 }
             })
             .then(result =>{
-                console.log(result)
                 const payload = {
                     accessToken:result.token,
                 }
