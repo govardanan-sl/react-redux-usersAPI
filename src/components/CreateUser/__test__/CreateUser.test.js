@@ -15,13 +15,11 @@ it("Renders",()=>{
     reactDom.unmountComponentAtNode(div);
 });
 
-describe("Input value",()=>{
-    it("updates on change",()=>{
-        const {queryByPlaceholderText} = render(<CreateUser/>)
-        const textField = queryByPlaceholderText("Name");
-        fireEvent.change(textField,{target:{value:'Test'}})
-        expect(textField.value).toBe("Test");
-    })
+it("updates on change",()=>{
+    const {queryByPlaceholderText} = render(<CreateUser/>)
+    const textField = queryByPlaceholderText("Name");
+    fireEvent.change(textField,{target:{value:'Test'}})
+    expect(textField.value).toBe("Test");
 })
 
 
