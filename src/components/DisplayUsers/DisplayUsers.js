@@ -97,19 +97,17 @@ function CreateUser(props) {
         .then(response => {
             setIsLoading(true)
             if(response.status===204){
-                setSuccessMessage("Deleted Successfully");
+                setSuccessMessage("Deleted Successfully",setTimeout(() => {
+                    setSuccessMessage(null);
+                }, 3000));
                 let ndata=data.filter((element) => element.id!==id );
                 setData(ndata);
-                return response.json();
+                setIsLoading(false);
+                setIsError(false);
             }
             if(!response.ok){
                 throw Error("Could not Fetch data");
             }
-            return response.json();
-        })
-        .then(result => {
-            setIsLoading(false);
-            setIsError(false);
         })
         .catch(err=>{
             setIsError(err.message);
@@ -136,7 +134,7 @@ function CreateUser(props) {
                         startIcon={<AddIcon/>}
                     />
                 </Toolbar>
-               <TableContainer>
+               {data&&<TableContainer>
                     <TbleHead/>
                     <TableBody>
                         {
@@ -157,7 +155,7 @@ function CreateUser(props) {
                                 </TableRow>))
                         }
                     </TableBody>
-               </TableContainer>
+               </TableContainer>}
                <Pagination count={2} variant="outlined" shape="rounded"  style={{marginTop: "16px"}} onChange={handlePageChange}/>
             </Paper>}
             {!props.accessToken&&

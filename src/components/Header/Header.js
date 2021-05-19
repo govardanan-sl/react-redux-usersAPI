@@ -25,7 +25,8 @@ function Header(props) {
                     </Grid>
                     <Grid item sm></Grid>
                     <Grid item>
-                        {props.accessToken&&<IconButton onClick={handleOnClick}>
+                        {props.accessToken&&
+                        <IconButton onClick={handleOnClick}>
                             <Badge color="primary">
                                 <PowerSettingsNew/>
                             </Badge>
