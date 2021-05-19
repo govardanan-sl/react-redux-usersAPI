@@ -118,7 +118,7 @@ function CreateUser(props) {
     }
     return (
         <div>
-            <PageHeader
+            <PageHeader data-testid="displayUsersHeader"
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             {props.accessToken&&<Paper className={classes.pageContent}>
@@ -162,7 +162,7 @@ function CreateUser(props) {
             </Paper>}
             {!props.accessToken&&
                 <div>
-                <Typography variant="h3" color="secondary" style={{textAlign:"center"}}>
+                <Typography variant="h3" color="secondary" style={{textAlign:"center"}} role="loginMessage">
                     Login To View!!
                 </Typography>
                 <Button onClick={()=>{setLoginPopup(true)}} text="Login" color="secondary" style={{left: "47%",top: "25%"}}></Button>
