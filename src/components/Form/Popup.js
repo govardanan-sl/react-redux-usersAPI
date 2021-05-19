@@ -9,9 +9,9 @@ function Popup(props) {
     return (
         <Dialog open={openPopup} maxWidth="lg">
             <DialogTitle>
-                <div style={{display:'flex'}}>
+                <div style={{display:'flex',justifyContent:"space-between"}}>
                     {title}
-                    <ActionButton color="secondary" style={{flexGrow:'1',justifyContent: "right"}} onClick={()=>setOpenPopup&&setOpenPopup(false)}><CloseIcon></CloseIcon></ActionButton>
+                    <ActionButton color="secondary" onClick={()=>setOpenPopup&&setOpenPopup(false)}><CloseIcon></CloseIcon></ActionButton>
                 </div>
             </DialogTitle>
             <DialogContent dividers>
