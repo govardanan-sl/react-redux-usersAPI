@@ -7,7 +7,7 @@ import { Alert } from '@material-ui/lab';
 
 
 function EditUserForm({initialValues,updateData,data}) {
-    const { formData , handleInputChange, setError,error,resetForm} = useForm(initialValues);
+    const { formData , handleInputChange, setError,error} = useForm(initialValues);
     const [isPending , setIsPending] = useState(false);
     const [isError,setIsError] = useState(null);
     const [successText,setSuccessText] = useState(null);

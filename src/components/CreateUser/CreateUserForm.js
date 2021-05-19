@@ -60,7 +60,7 @@ function CreateUserForm() {
     }
     return (
         <>
-        {<Form onSubmit = {handleSubmit}>
+        {<Form onSubmit = {handleSubmit} data-test-id="CreateUserForm">
             <Grid container>
                 <Grid item xs={6} style={{flexBasis:'100%',maxWidth:'100%'}}>
                    <Input
@@ -88,6 +88,7 @@ function CreateUserForm() {
                         type="submit"
                     ></Button>
                     <Button
+                        data-testid="resetButton"
                         variant="contained"
                         color="secondary"
                         size="large"

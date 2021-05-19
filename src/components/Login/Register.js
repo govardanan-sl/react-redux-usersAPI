@@ -1,4 +1,4 @@
-import { Avatar, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useState } from 'react'
 import { connect } from 'react-redux';

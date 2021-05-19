@@ -1,5 +1,5 @@
 import { AppBar, Badge, Grid, IconButton, InputBase, Toolbar } from '@material-ui/core';
-import { NotificationsNone, PowerSettingsNew } from '@material-ui/icons';
+import { PowerSettingsNew } from '@material-ui/icons';
 import React from 'react';
 import useStyles from './Styles';
 import SearchIcon from '@material-ui/icons/Search';

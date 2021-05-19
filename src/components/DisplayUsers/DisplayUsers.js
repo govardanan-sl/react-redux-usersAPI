@@ -51,6 +51,7 @@ function CreateUser(props) {
     const [openLoginPopup,setLoginPopup] = useState(true);
     useEffect(() => {
         let url ="https://reqres.in/api/users?page="+pageNo;
+        setIsLoading(true)
         let homeHeaders = new Headers();
         let requestOptions= {
             method: 'GET',
@@ -59,7 +60,6 @@ function CreateUser(props) {
         };
         fetch(url,requestOptions)
         .then(response => {
-            setIsLoading(true)
             if(response.status===401){
                 return response.json();
             }
@@ -122,6 +122,8 @@ function CreateUser(props) {
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             {props.accessToken&&<Paper className={classes.pageContent}>
+            {isError&&<Typography variant="h3" color="secondary">Error Occured</Typography>}
+            {isLoading&&<Alert severity="info">Loading...</Alert>}
             {successMessage&&<Alert severity="success" onClose={() => {setSuccessMessage(null)}}>{successMessage}</Alert>}
                 <Toolbar>
                     <Grid><Grid item  xs={10}></Grid></Grid>
