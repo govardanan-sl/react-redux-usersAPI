@@ -1,9 +1,7 @@
 import './App.css'
-import SideMenu from '../components/SideMenu/SideMenu';
 import Header from '../components/Header/Header';
 import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import CreateUser from '../components/CreateUser/CreateUser';
 import DisplayUsers from '../components/DisplayUsers/DisplayUsers';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../Store/store';
@@ -28,17 +26,10 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
         <div className="App">
-          <SideMenu/>
           <Header/>
           <CssBaseline/>
           <Switch>
             <Route exact path="/">
-              <DisplayUsers/>
-            </Route>
-            <Route path="/users/create">
-              <CreateUser/>
-            </Route>
-            <Route path="/users/view">
               <DisplayUsers/>
             </Route>
           </Switch>

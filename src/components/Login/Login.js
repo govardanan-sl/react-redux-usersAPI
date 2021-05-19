@@ -90,7 +90,7 @@ function Login(props) {
                         variant="contained"
                         color="primary"
                         size="large"
-                        text="Submit"
+                        text="Login"
                         type="submit"
                     ></Button>
                     <Button text="Reset" color="text.disabled" variant="outlined" onClick={()=>resetForm()}></Button>

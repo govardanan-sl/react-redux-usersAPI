@@ -1,1 +1,0 @@
-export const getCreateUserLink = () => "https://reqres.in/api/users";

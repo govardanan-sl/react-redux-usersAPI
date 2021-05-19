@@ -38,7 +38,7 @@ let initialValues = {
     avatar:""
 }
 
-function CreateUser(props) {
+function DisplayUsers(props) {
     const classes = useStyles();
     const [data,setData] = useState()
     const [isError,setIsError] = useState(null);
@@ -191,4 +191,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps,null)(CreateUser)
+export default connect(mapStateToProps,null)(DisplayUsers)

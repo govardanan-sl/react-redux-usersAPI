@@ -9,7 +9,8 @@ import { Form, useForm } from '../useForm';
 
 const initialValues = {
     email:"",
-    password:""
+    password:"",
+    repeatPassword:""
 }
 
 function Register(props) {
@@ -22,6 +23,8 @@ function Register(props) {
         let temp = {}
         temp.email = formData.email?"":"Required"
         temp.password= formData.password?"":"Required"
+        temp.repeatPassword =  formData.repeatPassword?"":"Required"
+        temp.repeatPassword = formData.password!==formData.repeatPassword?"Passwords Do not Match":""
         setError({...temp});
         return Object.values(temp).every(x => x==="");
     }
@@ -81,13 +84,21 @@ function Register(props) {
                         value={formData.password}
                         error={error.password}
                     />
+                    <Input
+                        label="Repeat Password"
+                        name="repeatPassword"
+                        type="password"
+                        onChange={handleInputChange}
+                        value={formData.repeatPassword}
+                        error={error.repeatPassword}
+                    />
                      {!isPending&&
                      <div>
                      <Button
                         variant="contained"
                         color="primary"
                         size="large"
-                        text="Submit"
+                        text="Register"
                         type="submit"
                     ></Button>
                     <Button
