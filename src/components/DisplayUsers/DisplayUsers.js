@@ -70,6 +70,7 @@ function DisplayUsers(props) {
     }
     useEffect(() => {
         getUserList();
+        // eslint-disable-next-line
     },[pageNo]);
     const handlePageChange = (e,pageNo) =>{
         setPageNo(pageNo);
