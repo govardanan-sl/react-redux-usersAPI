@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { Alert, Pagination } from '@material-ui/lab'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
+import { fetchData } from '../../Api/FetchData';
 import CreateUserForm from '../CreateUser/CreateUserForm';
 import EditUserForm from '../EditUser/EditUserForm';
 import ActionButton from '../Form/ActionButton';
@@ -59,7 +60,16 @@ function DisplayUsers(props) {
             headers:homeHeaders,
             redirect: 'follow'
         };
-        fetch(url,requestOptions)
+        fetchData(url,requestOptions,setIsError)
+        .then(res=>{
+            setData(res.data);
+            setIsLoading(false);
+        })
+        .catch(err=>{
+            setIsError(err.message);
+            setIsLoading(false);
+        })
+        /*fetch(url,requestOptions)
         .then(response => {
             if(response.status===401){
                 return response.json();
@@ -77,7 +87,8 @@ function DisplayUsers(props) {
         .catch(err=>{
             setIsError(err.message);
             setIsLoading(false);
-        })
+        })*/
+       
     },[pageNo]);
     const handlePageChange = (e,pageNo) =>{
         setPageNo(pageNo);
