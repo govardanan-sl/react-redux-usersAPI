@@ -2,6 +2,7 @@ import { Avatar, Backdrop, CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import { fetchData } from '../../Api/FetchData';
 import { setLoggedIn } from '../../Store/actions';
 import Button from '../Form/Button';
 import Input from '../Form/Input'
@@ -35,7 +36,7 @@ function Login(props) {
                 body : JSON.stringify(formData)
             };
             let url = "https://reqres.in/api/login"
-            fetch(url, requestOptions)
+            /*fetch(url, requestOptions)
             .then((res) => {
                 if(res.status!==200){
                     throw Error("Invalid Username or password");
@@ -57,7 +58,28 @@ function Login(props) {
             .catch((err) => {
                 setIsError(err.message)
                 setIsPending(false);
-            });
+            });*/
+            fetchData(url,requestOptions,setIsError)
+            .then(result=>{
+                if(result.error){
+                    setIsError(result.error);
+                    setIsPending(false);
+                }else{
+                    const payload = {
+                        accessToken:result.token,
+                    }
+                    setSuccessText("Logged In Successfully");
+                    props.setLoginData(payload);
+                    console.log(result);
+                    setIsPending(false);
+                    setPopup(false);
+                }
+                
+            })
+            .catch(err=>{
+                setIsError(err.message);
+                setIsPending(false);
+            })
         }
     }
     return (

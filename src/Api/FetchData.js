@@ -9,7 +9,11 @@ export const fetchData = (url,requestOptions,setIsError) =>{
                 }
             }
             else{
-                throw Error("Could not Fetch data");
+                if(response.status===400){
+                    return response.json();
+                }else{
+                    throw Error("Could not Fetch data");
+                }
             }
             })
             .catch(err=>{
