@@ -1,4 +1,4 @@
-import { Backdrop, CircularProgress, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { useState } from 'react'
 import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
@@ -7,6 +7,8 @@ import { getJobRoles } from './JobRoles';
 import Button from '../Form/Button';
 import { Alert } from '@material-ui/lab';
 import { fetchData } from '../../Api/FetchData';
+import Loader from '../UI/Loader';
+
 const initialValues ={
     name:'',
     job: ''
@@ -94,9 +96,7 @@ function CreateUserForm() {
                         text="Reset"
                         onClick={resetForm}
                     ></Button></div>}
-                    {<Backdrop open={isPending} style={{zIndex:1}}>
-                            <CircularProgress/>
-                    </Backdrop>}
+                    {<Loader isOpen={isPending}/>}
                     {isError&&<p>{isError}</p>}
                 </Grid>
             </Grid>

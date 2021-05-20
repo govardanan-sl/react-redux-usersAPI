@@ -1,10 +1,11 @@
-import { Avatar, Backdrop, CircularProgress, Grid } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import React, { useState } from 'react'
 import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
 import Button from '../Form/Button';
 import { Alert } from '@material-ui/lab';
 import { fetchData } from '../../Api/FetchData';
+import Loader from '../UI/Loader';
 
 
 function EditUserForm({initialValues,updateData,data}) {
@@ -86,9 +87,7 @@ function EditUserForm({initialValues,updateData,data}) {
                         type="submit"
                     ></Button>
                     </div>}
-                    {<Backdrop open={isPending} style={{zIndex:1}}>
-                            <CircularProgress/>
-                    </Backdrop>}
+                    {<Loader isOpen={isPending}/>}
                     {isError&&<Alert severity="error" onClose={() => {setIsError(null)}}>{isError}</Alert>}
                 </Grid>
             </Grid>

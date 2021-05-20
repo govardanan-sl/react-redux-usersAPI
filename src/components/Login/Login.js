@@ -1,4 +1,4 @@
-import { Avatar, Backdrop, CircularProgress, Grid } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import { fetchData } from '../../Api/FetchData';
 import { setLoggedIn } from '../../Store/actions';
 import Button from '../Form/Button';
 import Input from '../Form/Input'
+import Loader from '../UI/Loader';
 import { Form, useForm } from '../useForm';
 
 const initialValues = {
@@ -36,29 +37,6 @@ function Login(props) {
                 body : JSON.stringify(formData)
             };
             let url = "https://reqres.in/api/login"
-            /*fetch(url, requestOptions)
-            .then((res) => {
-                if(res.status!==200){
-                    throw Error("Invalid Username or password");
-                }else{
-                    console.log("Verified successfully");
-                    return res.json();
-                }
-            })
-            .then(result =>{
-                console.log(result)
-                const payload = {
-                    accessToken:result.token,
-                }
-                setSuccessText("Logged In Successfully");
-                props.setLoginData(payload);
-                console.log(result);
-                setPopup(false);
-            })
-            .catch((err) => {
-                setIsError(err.message)
-                setIsPending(false);
-            });*/
             fetchData(url,requestOptions,setIsError)
             .then(result=>{
                 if(result.error){
@@ -120,9 +98,7 @@ function Login(props) {
                         props.setIsRegister(true)
                     }}></Button>
                     </div>}
-                    {<Backdrop open={isPending} style={{zIndex:1}}>
-                            <CircularProgress/>
-                    </Backdrop>}
+                    {<Loader isOpen={isPending}/>}
                 </Grid>
             </Grid>
         </Form>}
