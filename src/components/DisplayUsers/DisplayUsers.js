@@ -51,7 +51,7 @@ function DisplayUsers(props) {
     const [successMessage,setSuccessMessage] = useState(null);
     const [openLoginPopup,setLoginPopup] = useState(true);
     useEffect(() => {
-        let url ="https://reqres.in/api/users?page="+pageNo;
+        let url ="https://reqres.in/api/users?delay=1&page="+pageNo;
         setIsLoading(true)
         let homeHeaders = new Headers();
         let requestOptions= {
@@ -117,12 +117,11 @@ function DisplayUsers(props) {
     }
     return (
         <div>
-            <PageHeader data-testid="displayUsersHeader"
+            <PageHeader
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             {props.accessToken&&<Paper className={classes.pageContent}>
             {isError&&<Typography variant="h3" color="secondary">Error Occured</Typography>}
-            {isLoading&&<Alert severity="info">Loading...</Alert>}
             {successMessage&&<Alert severity="success" onClose={() => {setSuccessMessage(null)}}>{successMessage}</Alert>}
                 <Toolbar>
                     <Grid><Grid item  xs={10}></Grid></Grid>
@@ -157,6 +156,7 @@ function DisplayUsers(props) {
                         }
                     </TableBody>
                </TableContainer>}
+               {isLoading&&<Alert severity="info">Loading...</Alert>}
                <Pagination count={2} variant="outlined" shape="rounded"  style={{marginTop: "16px"}} onChange={handlePageChange}/>
             </Paper>}
             {!props.accessToken&&

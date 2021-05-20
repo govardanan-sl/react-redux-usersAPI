@@ -35,7 +35,7 @@ it("Reset Button Resets data",()=>{
 
 
 
-it("Create User Form Matches Snapshot",()=>{
+it("Form Matches Snapshot",()=>{
     const tree = renderer.create(<CreateUser/>).toJSON();
     expect(tree).toMatchSnapshot();
 })

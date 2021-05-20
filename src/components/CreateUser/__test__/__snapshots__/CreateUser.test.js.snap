@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create User Form Matches Snapshot 1`] = `
+exports[`Form Matches Snapshot 1`] = `
 <div>
   <div
     className="MuiPaper-root makeStyles-root-27 MuiPaper-elevation0"
