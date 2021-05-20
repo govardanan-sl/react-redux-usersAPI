@@ -4,6 +4,7 @@ import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
 import Button from '../Form/Button';
 import { Alert } from '@material-ui/lab';
+import { fetchData } from '../../Api/FetchData';
 
 
 function EditUserForm({initialValues,updateData,data}) {
@@ -31,24 +32,18 @@ function EditUserForm({initialValues,updateData,data}) {
                 headers: createPostHeader,
                 body : JSON.stringify(post)
             };
-            let url = "https://reqres.in/api/users/"+formData.id
-            fetch(url, requestOptions)
-            .then((res) => {
-                  if(res.status!==200){
-                    throw Error(res.statusText);
-                }else{
-                    console.log("Posted");
-                    setIsPending(false);
-                    setSuccessText(`${post.first_name} ${post.last_name} Updated Successfully`,setTimeout(() => {
-                        setSuccessText(null);
-                    }, 3000))
-                    console.log(data)
-                    let ndata  = data.filter((item)=>item.id!==formData.id)
-                    ndata.push(post);
-                    updateData(ndata);
-                }
+            let url = "https://reqres.in/api/users/"+formData.id;
+            fetchData(url,requestOptions,setIsError)
+            .then(res=>{
+                setSuccessText(`${post.first_name} ${post.last_name} Updated Successfully`,setTimeout(() => {
+                    setSuccessText(null);
+                }, 3000))
+                setIsPending(false);
+                let newdata  = data.filter((item)=>item.id!==formData.id)
+                newdata.push(post);
+                updateData(newdata);
             })
-            .catch((err) => {
+            .catch(err=>{
                 console.log(err.message);
                 setIsError(err.message);
                 setIsPending(false);
@@ -94,7 +89,7 @@ function EditUserForm({initialValues,updateData,data}) {
                     {<Backdrop open={isPending} style={{zIndex:1}}>
                             <CircularProgress/>
                     </Backdrop>}
-                    {isError&&<p>{isError}</p>}
+                    {isError&&<Alert severity="error" onClose={() => {setIsError(null)}}>{isError}</Alert>}
                 </Grid>
             </Grid>
         </Form>}

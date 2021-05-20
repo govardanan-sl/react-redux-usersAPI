@@ -14,8 +14,6 @@ import PageHeader from '../Header/PageHeader'
 import LoginPopup from '../Login/LoginPopup';
 import {useTable} from '../useTable'
 
-
-
 const useStyles = makeStyles(theme=>({
     pageContent:{
         margin:theme.spacing(5),
@@ -72,25 +70,6 @@ function DisplayUsers(props) {
     }
     useEffect(() => {
         getUserList();
-        /*fetch(url,requestOptions)
-        .then(response => {
-            if(response.status===401){
-                return response.json();
-            }
-            if(!response.ok){
-                throw Error("Could not Fetch data");
-            }
-            return response.json();
-        })
-        .then(result => {
-            setData(result.data);
-            setIsLoading(false);
-            setIsError(false);
-        })
-        .catch(err=>{
-            setIsError(err.message);
-            setIsLoading(false);
-        })*/
     },[pageNo]);
     const handlePageChange = (e,pageNo) =>{
         setPageNo(pageNo);
@@ -108,28 +87,15 @@ function DisplayUsers(props) {
             headers:homeHeaders,
             redirect: 'follow'
         };
-        fetch(url,requestOptions)
-        .then(response => {
-            if(response.status===204){
-                setSuccessMessage("Deleted Successfully",setTimeout(() => {
-                    setSuccessMessage(null);
-                }, 3000));
-                let ndata=data.filter((element) => element.id!==id );
-                setData(ndata);
-                setIsLoading(false);
-                setIsError(false);
-            }
-            if(!response.ok){
-                throw Error("Could not Fetch data");
-            }
-        })
-        .catch(err=>{
-            setIsError(err.message);
-            setIsLoading(false);
-        })
         fetchData(url,requestOptions,setIsError)
         .then(res=>{
-            console.log("Delete");
+            setSuccessMessage("Deleted Successfully",setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000));
+            let ndata=data.filter((element) => element.id!==id );
+            setData(ndata);
+            setIsLoading(false);
+            setIsError(false);
         })
         .catch(err=>{
             setIsError(err.message);
