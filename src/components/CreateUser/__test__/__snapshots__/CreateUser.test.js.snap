@@ -238,6 +238,43 @@ exports[`Form Matches Snapshot 1`] = `
               </span>
             </button>
           </div>
+          <div
+            aria-hidden={true}
+            className="MuiBackdrop-root"
+            style={
+              Object {
+                "opacity": 0,
+                "visibility": "hidden",
+                "zIndex": 1,
+              }
+            }
+          >
+            <div
+              className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+              role="progressbar"
+              style={
+                Object {
+                  "height": 40,
+                  "width": 40,
+                }
+              }
+            >
+              <svg
+                className="MuiCircularProgress-svg"
+                viewBox="22 22 44 44"
+              >
+                <circle
+                  className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                  cx={44}
+                  cy={44}
+                  fill="none"
+                  r={20.2}
+                  strokeWidth={3.6}
+                  style={Object {}}
+                />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </form>
