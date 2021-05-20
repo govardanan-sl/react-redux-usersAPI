@@ -51,7 +51,7 @@ function DisplayUsers(props) {
     const [editData,setEditData] = useState(null);
     const [successMessage,setSuccessMessage] = useState(null);
     const [openLoginPopup,setLoginPopup] = useState(true);
-    useEffect(() => {
+    const getUserList = () =>{
         let url ="https://reqres.in/api/users?delay=1&page="+pageNo;
         setIsLoading(true)
         let homeHeaders = new Headers();
@@ -69,6 +69,9 @@ function DisplayUsers(props) {
             setIsError(err.message);
             setIsLoading(false);
         })
+    }
+    useEffect(() => {
+        getUserList();
         /*fetch(url,requestOptions)
         .then(response => {
             if(response.status===401){
@@ -88,7 +91,6 @@ function DisplayUsers(props) {
             setIsError(err.message);
             setIsLoading(false);
         })*/
-       
     },[pageNo]);
     const handlePageChange = (e,pageNo) =>{
         setPageNo(pageNo);
@@ -98,6 +100,7 @@ function DisplayUsers(props) {
         initialValues=dt;
     }
     const handleDelete = (id)=>{
+        setIsLoading(true)
         let url ="https://reqres.in/api/users/"+id;
         let homeHeaders = new Headers();
         let requestOptions= {
@@ -107,7 +110,6 @@ function DisplayUsers(props) {
         };
         fetch(url,requestOptions)
         .then(response => {
-            setIsLoading(true)
             if(response.status===204){
                 setSuccessMessage("Deleted Successfully",setTimeout(() => {
                     setSuccessMessage(null);
@@ -120,6 +122,14 @@ function DisplayUsers(props) {
             if(!response.ok){
                 throw Error("Could not Fetch data");
             }
+        })
+        .catch(err=>{
+            setIsError(err.message);
+            setIsLoading(false);
+        })
+        fetchData(url,requestOptions,setIsError)
+        .then(res=>{
+            console.log("Delete");
         })
         .catch(err=>{
             setIsError(err.message);
@@ -156,12 +166,12 @@ function DisplayUsers(props) {
                                     <TableCell>{dt.last_name}</TableCell>
                                     <TableCell><Avatar alt={dt.first_name} src={dt.avatar} /></TableCell>
                                     <TableCell>
-                                        <ActionButton color="primary" onClick={()=>{handleEdit(dt)}}>
+                                        {!isLoading&&<ActionButton color="primary" onClick={()=>{handleEdit(dt)}}>
                                             <EditOutlined></EditOutlined>
-                                        </ActionButton>
-                                        <ActionButton color="secondary" onClick={()=>{handleDelete(dt.id)}}>
+                                        </ActionButton>}
+                                        {!isLoading&&<ActionButton color="secondary" onClick={()=>{handleDelete(dt.id)}}>
                                             <DeleteOutline></DeleteOutline>
-                                        </ActionButton>
+                                        </ActionButton>}
                                     </TableCell>
                                 </TableRow>))
                         }
