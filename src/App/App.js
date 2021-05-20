@@ -6,6 +6,7 @@ import DisplayUsers from '../components/DisplayUsers/DisplayUsers';
 import { Provider } from 'react-redux';
 import { persistor, store } from '../Store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 const theme = createMuiTheme({
   palette:{
@@ -25,12 +26,15 @@ function App() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
+        
         <div className="App">
           <Header/>
           <CssBaseline/>
           <Switch>
             <Route exact path="/">
+            <ErrorBoundary>
               <DisplayUsers/>
+            </ErrorBoundary>
             </Route>
           </Switch>
         </div>

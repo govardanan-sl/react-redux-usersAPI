@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Backdrop, CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -23,7 +23,7 @@ function Register(props) {
         let temp = {}
         temp.email = formData.email?"":"Required"
         temp.password= formData.password?"":"Required"
-        temp.repeatPassword =  formData.repeatPassword?"":"Required"
+        temp.repeatPassword = formData.repeatPassword?"":"Required"
         temp.repeatPassword = formData.password!==formData.repeatPassword?"Passwords Do not Match":""
         setError({...temp});
         return Object.values(temp).every(x => x==="");
@@ -108,7 +108,9 @@ function Register(props) {
                         onClick={()=>resetForm()}
                     />
                     </div>}
-                    {isPending&&<p>Please Wait!!</p>}
+                    {<Backdrop open={isPending} style={{zIndex:1}}>
+                            <CircularProgress/>
+                    </Backdrop>}
                 </Grid>
             </Grid>
         </Form>}

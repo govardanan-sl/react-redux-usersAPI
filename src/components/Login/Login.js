@@ -1,4 +1,4 @@
-import { Avatar, Grid } from '@material-ui/core';
+import { Avatar, Backdrop, CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
@@ -98,7 +98,9 @@ function Login(props) {
                         props.setIsRegister(true)
                     }}></Button>
                     </div>}
-                    {isPending&&<p>Please Wait!!</p>}
+                    {<Backdrop open={isPending} style={{zIndex:1}}>
+                            <CircularProgress/>
+                    </Backdrop>}
                 </Grid>
             </Grid>
         </Form>}

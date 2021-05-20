@@ -1,4 +1,4 @@
-import { Avatar, Grid, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar, Typography } from '@material-ui/core'
+import { Avatar, Grid, LinearProgress, makeStyles, Paper, TableBody, TableCell, TableRow, Toolbar, Typography } from '@material-ui/core'
 import { DeleteOutline, EditOutlined, PeopleOutlineTwoTone } from '@material-ui/icons'
 import AddIcon from '@material-ui/icons/Add';
 import { Alert, Pagination } from '@material-ui/lab'
@@ -121,7 +121,7 @@ function DisplayUsers(props) {
                 title="All Users"
                 subTitle="View and edit all the users" icon={<PeopleOutlineTwoTone fontSize="large"/>}/>
             {props.accessToken&&<Paper className={classes.pageContent}>
-            {isError&&<Typography variant="h3" color="secondary">Error Occured</Typography>}
+            {isError&&<Alert severity="warning" onClose={() => {setIsError(null)}}>{"Unable to Fetch Data"}</Alert>}
             {successMessage&&<Alert severity="success" onClose={() => {setSuccessMessage(null)}}>{successMessage}</Alert>}
                 <Toolbar>
                     <Grid><Grid item  xs={10}></Grid></Grid>
@@ -138,7 +138,7 @@ function DisplayUsers(props) {
                     <TbleHead/>
                     <TableBody>
                         {
-                            data&&data.map(dt=>
+                            data?.map(dt=>
                                 (<TableRow key={dt.id}>
                                     <TableCell>{dt.email}</TableCell>
                                     <TableCell>{dt.first_name}</TableCell>
@@ -156,13 +156,13 @@ function DisplayUsers(props) {
                         }
                     </TableBody>
                </TableContainer>}
-               {isLoading&&<Alert severity="info">Loading...</Alert>}
+               {isLoading&&<LinearProgress/>}
                <Pagination count={2} variant="outlined" shape="rounded"  style={{marginTop: "16px"}} onChange={handlePageChange}/>
             </Paper>}
             {!props.accessToken&&
                 <div>
                 <Typography variant="h3" color="secondary" style={{textAlign:"center"}} role="loginMessage">
-                    Login To View!!
+                    Login To View
                 </Typography>
                 <Button onClick={()=>{setLoginPopup(true)}} text="Login" color="secondary" style={{left: "47%",top: "25%"}}></Button>
                 </div>

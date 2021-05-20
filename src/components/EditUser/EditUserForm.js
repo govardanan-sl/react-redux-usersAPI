@@ -1,4 +1,4 @@
-import { Avatar, Grid } from '@material-ui/core';
+import { Avatar, Backdrop, CircularProgress, Grid } from '@material-ui/core';
 import React, { useState } from 'react'
 import {useForm,Form} from '../useForm';
 import Input from '../Form/Input';
@@ -14,7 +14,7 @@ function EditUserForm({initialValues,updateData,data}) {
     const validate = () =>{
         let temp = {}
         temp.name = formData.first_name?"":"Required"
-        temp.job= formData.last_name?"":"Required"
+        temp.last_name= formData.last_name?"":"Required"
         setError({...temp});
         return Object.values(temp).every(x => x==="");
     }
@@ -73,14 +73,13 @@ function EditUserForm({initialValues,updateData,data}) {
                         name="last_name"
                         value={formData.last_name}
                         onChange={handleInputChange}
-                        error={error.name}
+                        error={error.last_name}
                     />
                     <Input
                         disabled
                         label="Email"
                         name="email"
                         value={formData.email}
-                        error={error.name}
                     />
                      {!isPending&&
                      <div>
@@ -92,7 +91,9 @@ function EditUserForm({initialValues,updateData,data}) {
                         type="submit"
                     ></Button>
                     </div>}
-                    {isPending&&<p>Please Wait!!</p>}
+                    {<Backdrop open={isPending} style={{zIndex:1}}>
+                            <CircularProgress/>
+                    </Backdrop>}
                     {isError&&<p>{isError}</p>}
                 </Grid>
             </Grid>
