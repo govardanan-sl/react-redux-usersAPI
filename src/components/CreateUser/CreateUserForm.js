@@ -6,6 +6,7 @@ import Select from '../Form/Select';
 import { getJobRoles } from './JobRoles';
 import Button from '../Form/Button';
 import { Alert } from '@material-ui/lab';
+import { fetchData } from '../../Api/FetchData';
 const initialValues ={
     name:'',
     job: ''
@@ -28,7 +29,6 @@ function CreateUserForm() {
         e.preventDefault();
         if(validate()){
             const post = { name:formData.name, job:formData.job};
-            console.log(JSON.stringify(post));
             setIsPending(true);
             var createPostHeader = new Headers();
             createPostHeader.append("Content-Type", "application/json");
@@ -38,12 +38,11 @@ function CreateUserForm() {
                 body : JSON.stringify(post)
             };
             let url = "https://reqres.in/api/users"
-            fetch(url, requestOptions)
-            .then((res) => {
-                  if(res.status!==201){
-                    throw Error(res.statusText);
+            fetchData(url,requestOptions,setIsError)
+            .then(result=>{
+                if(result.error){
+                    setIsError(result.error);
                 }else{
-                    console.log("Posted");
                     setIsPending(false);
                     setSuccessText("Created Successfully",setTimeout(() => {
                         setSuccessText(null);
@@ -51,11 +50,11 @@ function CreateUserForm() {
                     resetForm();
                 }
             })
-            .catch((err) => {
+            .catch(err=>{
                 console.log(err.message);
                 setIsError(err.message);
                 setIsPending(false);
-            });
+            })
         }
     }
     return (
